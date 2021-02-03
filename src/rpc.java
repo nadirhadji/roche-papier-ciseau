@@ -11,57 +11,59 @@
  **********************************************************/
 public class rpc {
 
-    /** Les constantes d'affichage */
-
-    public static final String PRESENTATION =
-            "-----------------------------------------------\n" +
-            "--- Bienvenue au jeu de roche-papier-ciseau ---\n" +
-            "-----------------------------------------------\n";
-
-    public static final String MSG_NB_MANCHES = "Combien de manches voulez-vous jouer?\n";
-
-    //Example de phrase a afficher : Il reste 5 manche(s) à jouer.
-
-    public static final String MSG_MANCHE_1 = "\n\nIl reste ";
-
-    public static final String MSG_MANCHE_2  = " manche(s) à jouer.\n";
-
-    //Example de phrase a afficher : JOUEUR 1, quel est votre choix? [r/p/c]
-
-    public static final String MSG_JOUEUR_1 = "JOUEUR 1";
-
-    public static final String MSG_JOUEUR_2 = "JOUEUR 2";
-
-    public static final String MSG_CHOIX = ", quel est votre choix? [r/p/c]\n";
-
-    public static final String MSG_MANCHE_NULL = "Manche nulle...\n\n";
-
-    // Example de phrase a afficher : JOUEUR 2 a gagné cette manche! Score: 1-3
-
-    public static final String MSG_VICTOIRE_MANCHE = " a gagné cette manche! Score: ";
-
-    public static final char TIRET = '-';
-
-    //Example de phrase a afficher : JOUEUR 2 A GAGNÉ LE MATCH! FÉLICITATIONS!
-
-    public static final String MSG_VICTOIRE_PARTIE = " A GAGNÉ LE MATCH! FÉLICITATIONS!\n";
-
-    public static final String MSG_SCORE_FINAL = "SCORE FINAL: ";
-
-    //Message d'erreur menant a la fin du programme
-
-    public static final String MSG_ERR = "Erreur d'entrée! Programme terminé.\n";
-
     public static void main(String[] args) {
 
+        /** Les constantes d'affichage */
+
+        final String PRESENTATION =
+                "-----------------------------------------------\n" +
+                "--- Bienvenue au jeu de roche-papier-ciseau ---\n" +
+                "-----------------------------------------------\n";
+
+        final String MSG_NB_MANCHES = "Combien de manches voulez-vous jouer?\n";
+
+        //Example de phrase a afficher : Il reste 5 manche(s) à jouer.
+
+        final String MSG_MANCHE_1 = "\n\nIl reste ";
+
+        final String MSG_MANCHE_2  = " manche(s) à jouer.\n";
+
+        //Example de phrase a afficher : JOUEUR 1, quel est votre choix? [r/p/c]
+
+        final String MSG_JOUEUR_1 = "JOUEUR 1";
+
+        final String MSG_JOUEUR_2 = "JOUEUR 2";
+
+        final String MSG_CHOIX = ", quel est votre choix? [r/p/c]\n";
+
+        final String MSG_MANCHE_NULL = "Manche nulle...\n\n";
+
+        // Example de phrase a afficher : JOUEUR 2 a gagné cette manche! Score: 1-3
+
+        final String MSG_VICTOIRE_MANCHE = " a gagné cette manche! Score: ";
+
+        final char TIRET = '-';
+
+        //Example de phrase a afficher : JOUEUR 2 A GAGNÉ LE MATCH! FÉLICITATIONS!
+
+        final String MSG_VICTOIRE_PARTIE = " A GAGNÉ LE MATCH! FÉLICITATIONS!\n";
+
+        final String MSG_SCORE_FINAL = "SCORE FINAL: ";
+
+        //Message d'erreur menant a la fin du programme
+
+        final String MSG_ERR = "Erreur d'entrée! Programme terminé.\n";
+
+        /** Les variables */
+
         int nbManches = 0;
-        char choixJ1;                   //choix du joueur 1
-        char choixJ2;                   //choix du joueur 2
-        int scoreJ1 = 0;                //score du joueur 1
-        int scoreJ2 = 0;                //score du joueur 2
-        int seuilleDeVictoire = 0;      //score a partie du quelle un joueur gagne
-                                        //quelque soit l'issue des manches suivantes.
-        boolean encoreJouable = true;   //indicateur de fin de jeu anticipé.
+        char choixJ1 = 0;                   //choix du joueur 1
+        char choixJ2 = 0;                   //choix du joueur 2
+        int scoreJ1 = 0;                    //score du joueur 1
+        int scoreJ2 = 0;                    //score du joueur 2
+        int seuilleDeVictoire = 0;          //score a partie du quelle un joueur gagne
+                                            //quelque soit l'issue des manches suivantes.
+        boolean encoreJouable = true;       //indicateur de fin de jeu anticipé.
 
         //Affichage du message d'introduction du programme
         Pep8.stro(PRESENTATION);
@@ -220,19 +222,23 @@ public class rpc {
                 //Verification de la victoire anticipé du joueur 2
                 if(scoreJ2 == seuilleDeVictoire)
                     encoreJouable = false;
-
             }
         } while (nbManches > 0 && encoreJouable );
 
+        //Affichage du nom du vainqueur
         if (scoreJ1 > scoreJ2)
             Pep8.stro(MSG_JOUEUR_1);
         else
             Pep8.stro(MSG_JOUEUR_2);
 
+        //Affichage du message de sortie de programme
         Pep8.stro(MSG_VICTOIRE_PARTIE);
         Pep8.stro(MSG_SCORE_FINAL);
         Pep8.deco(scoreJ1);
         Pep8.charo(TIRET);
         Pep8.deco(scoreJ2);
+
+        //Fin du programme
+        Pep8.stop();
     }
 }
