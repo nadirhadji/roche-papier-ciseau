@@ -1,5 +1,3 @@
-import java.awt.event.PaintEvent;
-
 /**********************************************************
  *          U Q A M   -   I N F 2 1 7 1
  * Organisation des ordinateurs et assembleur
@@ -15,54 +13,58 @@ public class rpc {
 
     /** Les constantes d'affichage */
 
-    private static final String INTO = "-----------------------------------------------\n" +
-                                       "--- Bienvenue au jeu de roche-papier-ciseau ---\n" +
-                                       "-----------------------------------------------\n";
+    public static final String PRESENTATION =
+            "-----------------------------------------------\n" +
+            "--- Bienvenue au jeu de roche-papier-ciseau ---\n" +
+            "-----------------------------------------------\n";
 
-    private static final String MSG_NB_MANCHES = "Combien de manches voulez-vous jouer?\n";
+    public static final String MSG_NB_MANCHES = "Combien de manches voulez-vous jouer?\n";
 
     //Example de phrase a afficher : Il reste 5 manche(s) à jouer.
 
-    private static final String MSG_MANCHE_1 = "\n\nIl reste ";
+    public static final String MSG_MANCHE_1 = "\n\nIl reste ";
 
-    private static final String MSG_MANCHE_2  = " manche(s) à jouer.\n";
+    public static final String MSG_MANCHE_2  = " manche(s) à jouer.\n";
 
     //Example de phrase a afficher : JOUEUR 1, quel est votre choix? [r/p/c]
 
-    private static final String MSG_JOUEUR_1 = "JOUEUR 1";
+    public static final String MSG_JOUEUR_1 = "JOUEUR 1";
 
-    private static final String MSG_JOUEUR_2 = "JOUEUR 2";
+    public static final String MSG_JOUEUR_2 = "JOUEUR 2";
 
-    private static final String MSG_CHOIX = ", quel est votre choix? [r/p/c]\n";
+    public static final String MSG_CHOIX = ", quel est votre choix? [r/p/c]\n";
 
-    private static final String MSG_MANCHE_NULL = "Manche nulle...\n\n";
+    public static final String MSG_MANCHE_NULL = "Manche nulle...\n\n";
 
     // Example de phrase a afficher : JOUEUR 2 a gagné cette manche! Score: 1-3
 
-    private static final String MSG_VICTOIRE_MANCHE = " a gagné cette manche! Score: ";
+    public static final String MSG_VICTOIRE_MANCHE = " a gagné cette manche! Score: ";
 
-    private static final char TIRET = '-';
+    public static final char TIRET = '-';
 
     //Example de phrase a afficher : JOUEUR 2 A GAGNÉ LE MATCH! FÉLICITATIONS!
 
-    private static final String MSG_VICTOIRE_PARTIE = " A GAGNÉ LE MATCH! FÉLICITATIONS!\n";
+    public static final String MSG_VICTOIRE_PARTIE = " A GAGNÉ LE MATCH! FÉLICITATIONS!\n";
 
-    private static final String MSG_SCORE_FINAL = "SCORE FINAL: ";
+    public static final String MSG_SCORE_FINAL = "SCORE FINAL: ";
 
     //Message d'erreur menant a la fin du programme
 
-    private static final String MSG_ERR = "Erreur d'entrée! Programme terminé.\n";
+    public static final String MSG_ERR = "Erreur d'entrée! Programme terminé.\n";
 
     public static void main(String[] args) {
 
         int nbManches = 0;
-        char choixJ1;               //choix du joueur 1
-        char choixJ2;               //choix du joueur 2
-        int scoreJ1 = 0;            //score du joueur 1
-        int scoreJ2 = 0;            //score du joueur 2
+        char choixJ1;                   //choix du joueur 1
+        char choixJ2;                   //choix du joueur 2
+        int scoreJ1 = 0;                //score du joueur 1
+        int scoreJ2 = 0;                //score du joueur 2
+        int seuilleDeVictoire = 0;      //score a partie du quelle un joueur gagne
+                                        //quelque soit l'issue des manches suivantes.
+        boolean encoreJouable = true;   //indicateur de fin de jeu anticipé.
 
         //Affichage du message d'introduction du programme
-        Pep8.stro(INTO);
+        Pep8.stro(PRESENTATION);
 
         //Affichage du message de sollicitation du nombre de manches a jouer
         Pep8.stro(MSG_NB_MANCHES);
@@ -77,12 +79,26 @@ public class rpc {
         paire donc incrémentation.
         */
         int reste = nbManches;
+        int quotient = 0;
 
-        while(reste >= 2)
+        while(reste >= 2) {
             reste = reste - 2;
+            quotient = quotient + 1;
+        }
 
         if( reste == 0)
             nbManches = nbManches + 1;
+
+        /*
+        Seuille de victoire est atteind lorsque le joueur
+        adverse ne pourra pas remonter le score pour gagner
+        la partie.
+
+        Example :
+        - partie a 7 manches : à 4-0 , quelque soit le resultat
+        des 3 manches restantes, le joueurs ayant 4 a déja gagner.
+         */
+        seuilleDeVictoire = quotient + 1;
 
         //Boucle principale du jeu
         do {
@@ -114,17 +130,17 @@ public class rpc {
                 Pep8.stop();
             }
 
-            //Les deux joueurs joue le meme symbole
+            /*
+            Si les deux joueurs joue le meme symbole, affichage du message
+            de manche nulle.
+
+            Sinon , dans chaque sous condition, on incremente le compteur
+            de score du vainqueur et on affiche son nom.
+            La suite de l'affichage vien a la fin
+             */
             if(choixJ1 == choixJ2)
                 Pep8.stro(MSG_MANCHE_NULL);
-
-            /*
-            Dans chaque sous condition, on incremente le compteur de score
-            du vainqueur et on affiche son nom. La suite de l'affichage vien
-            a la fin
-             */
             else {
-
                 /*
                 Le joueur 1 joue papier
                 Le joueur 2 joue roche
@@ -193,11 +209,30 @@ public class rpc {
                 Pep8.deco(scoreJ1);
                 Pep8.charo(TIRET);
                 Pep8.deco(scoreJ2);
-            }
-        //TODO - condition de fin de boucle
-        } while (true );
 
-        //TODO - Affichage du message de FIN.
-        //TODO - Affichage du score final.
+                //Décrementation du nombre de manches restante a jouer
+                nbManches = nbManches - 1;
+
+                //Verification de la victoire anticipé du joueur 1
+                if(scoreJ1 == seuilleDeVictoire )
+                    encoreJouable = false;
+
+                //Verification de la victoire anticipé du joueur 2
+                if(scoreJ2 == seuilleDeVictoire)
+                    encoreJouable = false;
+
+            }
+        } while (nbManches > 0 && encoreJouable );
+
+        if (scoreJ1 > scoreJ2)
+            Pep8.stro(MSG_JOUEUR_1);
+        else
+            Pep8.stro(MSG_JOUEUR_2);
+
+        Pep8.stro(MSG_VICTOIRE_PARTIE);
+        Pep8.stro(MSG_SCORE_FINAL);
+        Pep8.deco(scoreJ1);
+        Pep8.charo(TIRET);
+        Pep8.deco(scoreJ2);
     }
 }
