@@ -258,20 +258,4 @@ public class rpc {
         //Fin du programme
         Pep8.stop();
     }
-
-    public static void main1(String[] args) {
-
-        // Lit et affiche 5 caracteres (blancs compris)
-        Pep8.stro("Debut :\n");
-        for(int i = 0; i < 5; i++) {
-            char c = Pep8.chari();
-            Pep8.stro("``");
-            Pep8.charo(c);
-            Pep8.stro("'' est le caractere de code ASCII: ");
-            Pep8.deco(c);
-            Pep8.stro("\n");
-        }
-
-        Pep8.stop();
-    }
 }
