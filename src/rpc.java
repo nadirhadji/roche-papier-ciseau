@@ -36,7 +36,7 @@ public class rpc {
 
         final String MSG_CHOIX = ", quel est votre choix? [r/p/c]\n";
 
-        final String MSG_MANCHE_NULL = "Manche nulle...\n\n";
+        final String MSG_MANCHE_NULL = "Manche nulle...";
 
         // Example de phrase a afficher : JOUEUR 2 a gagné cette manche! Score: 1-3
 
@@ -46,7 +46,7 @@ public class rpc {
 
         //Example de phrase a afficher : JOUEUR 2 A GAGNÉ LE MATCH! FÉLICITATIONS!
 
-        final String MSG_VICTOIRE_PARTIE = " A GAGNÉ LE MATCH! FÉLICITATIONS!\n";
+        final String MSG_VICTOIRE_PARTIE = " A GAGNÉ LE MATCH! FÉLICITATIONS!";
 
         final String MSG_SCORE_FINAL = "SCORE FINAL: ";
 
@@ -57,8 +57,8 @@ public class rpc {
         /** Les variables */
 
         int nbManches = 0;
-        char choixJ1 = 0;                   //choix du joueur 1
-        char choixJ2 = 0;                   //choix du joueur 2
+        char choixJ1;                       //choix du joueur 1
+        char choixJ2;                       //choix du joueur 2
         int scoreJ1 = 0;                    //score du joueur 1
         int scoreJ2 = 0;                    //score du joueur 2
         int seuilleDeVictoire = 0;          //score a partie du quelle un joueur gagne
@@ -114,20 +114,35 @@ public class rpc {
             Pep8.stro(MSG_JOUEUR_1);
             Pep8.stro(MSG_CHOIX);
 
-            //Sollicitation du choix pour joueur 1 (r ou p ou c)
+            //Vider la valeur de choixJ1
             choixJ1 = Pep8.chari();
 
-            //Validation de la valeur saisie
-            if( choixJ1 != 'r' && choixJ1 != 'p' && choixJ1 != 'c'){
+            //Saisie de la nouvelle valeur de choixJ1
+            choixJ1 = Pep8.chari();
+
+            /*
+            Validation de la saisie
+            ASCII 'r' = 114
+            ASCII 'p' = 112
+            ASCII 'c' = 99
+             */
+            if( choixJ1 != 114 && choixJ1 != 112 && choixJ1 != 99){
                 Pep8.stro(MSG_ERR);
                 Pep8.stop();
             }
 
-            //Sollicitation du choix pour joueur 2 (r ou p ou c)
+            //Affichage message de sollicitation pour Joueur 2
+            Pep8.stro(MSG_JOUEUR_2);
+            Pep8.stro(MSG_CHOIX);
+
+            //Vider la valeur de choixJ2
+            choixJ2 = Pep8.chari();
+
+            //Saisie de la nouvelle valeur de choixJ2
             choixJ2 = Pep8.chari();
 
             //Validation de la valeur saisie
-            if( choixJ2 != 'r' && choixJ2 != 'p' && choixJ2 != 'c'){
+            if( choixJ2 != 114 && choixJ2 != 112 && choixJ2 != 99){
                 Pep8.stro(MSG_ERR);
                 Pep8.stop();
             }
@@ -225,6 +240,7 @@ public class rpc {
             }
         } while (nbManches > 0 && encoreJouable );
 
+        Pep8.stro("\n\n");
         //Affichage du nom du vainqueur
         if (scoreJ1 > scoreJ2)
             Pep8.stro(MSG_JOUEUR_1);
@@ -233,6 +249,7 @@ public class rpc {
 
         //Affichage du message de sortie de programme
         Pep8.stro(MSG_VICTOIRE_PARTIE);
+        Pep8.stro("\n");
         Pep8.stro(MSG_SCORE_FINAL);
         Pep8.deco(scoreJ1);
         Pep8.charo(TIRET);
