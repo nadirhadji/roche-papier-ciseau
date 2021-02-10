@@ -1,9 +1,11 @@
+import java.awt.*;
+
 /**********************************************************
  *          U Q A M   -   I N F 2 1 7 1
  * Organisation des ordinateurs et assembleur
  *
- * @author Cissé Saliou
- * @author Hadji Nadir
+ * @author Cissé Saliou (CISS20129907)
+ * @author Hadji Nadir (HADN08069703)
  *
  * Travail pratique 1: Jeu de roche-papier-ciseau
  * Ce programme sert de support a l'implémentation du jeu
@@ -54,6 +56,12 @@ public class rpc {
 
         final String MSG_ERR = "Erreur d'entrée! Programme terminé.\n";
 
+        //Constante des options de jeu
+
+        final char ROCHE = 'r';
+        final char PAPIER = 'p';
+        final char CISEAU = 'c';
+
         /** Les variables */
 
         int nbManches = 0;
@@ -75,10 +83,14 @@ public class rpc {
         nbManches = Pep8.deci();
 
         /*
-        Trouver le reste de la divion de nbManches par 2 (Sans division)
-        On soustrait 2 au tampon de nbManches jusqu'a trouver un reste
-        de 0 ou 1. Si le reste est 0, on sais que le nombre de manche est
-        paire donc incrémentation.
+        L'objectif est de déterminer si le nombre de manche saisie par
+        l'utilisateur est paire sans utiliser de division.
+
+        On effectue des soustractions succesives de 2 sur le nombre de manches
+        jusqu'a trouver un reste de 0 ou 1.
+
+        Si la valeur de reste est 0, elle est paire. On incrémente donc
+        le nombre de manches de 1.
         */
         int reste = nbManches;
         int quotient = 0;
@@ -92,14 +104,10 @@ public class rpc {
             nbManches = nbManches + 1;
 
         /*
-        Seuille de victoire est atteind lorsque le joueur
-        adverse ne pourra pas remonter le score pour gagner
-        la partie.
-
-        Example :
-        - partie a 7 manches : à 4-0 , quelque soit le resultat
-        des 3 manches restantes, le joueurs ayant 4 a déja gagner.
-         */
+        On a determinée plus haut le quotient de la division du nombre de manche
+        par 2. Lorsque le score d'un joueur franchie le seuil du quotient,
+        la victoire est acquise.
+        */
         seuilleDeVictoire = quotient + 1;
 
         //Boucle principale du jeu
@@ -126,7 +134,7 @@ public class rpc {
             ASCII 'p' = 112
             ASCII 'c' = 99
              */
-            if( choixJ1 != 114 && choixJ1 != 112 && choixJ1 != 99){
+            if( choixJ1 != ROCHE && choixJ1 != PAPIER && choixJ1 != CISEAU){
                 Pep8.stro(MSG_ERR);
                 Pep8.stop();
             }
@@ -142,7 +150,7 @@ public class rpc {
             choixJ2 = Pep8.chari();
 
             //Validation de la valeur saisie
-            if( choixJ2 != 114 && choixJ2 != 112 && choixJ2 != 99){
+            if( choixJ2 != ROCHE && choixJ2 != PAPIER && choixJ2 != CISEAU){
                 Pep8.stro(MSG_ERR);
                 Pep8.stop();
             }
@@ -163,7 +171,7 @@ public class rpc {
                 Le joueur 2 joue roche
                 Donc le joueur 1 gagne la manche
                  */
-                if(choixJ1 == 'p' && choixJ2 == 'r') {
+                if(choixJ1 == PAPIER && choixJ2 == ROCHE) {
                     scoreJ1++;
                     Pep8.stro(MSG_JOUEUR_1);
                 }
@@ -173,7 +181,7 @@ public class rpc {
                 Le joueur 2 joue papier
                 Donc le joueur 2 gagne la manche
                  */
-                if(choixJ1 == 'r' && choixJ2 == 'p') {
+                if(choixJ1 == ROCHE && choixJ2 == PAPIER) {
                     scoreJ2++;
                     Pep8.stro(MSG_JOUEUR_2);
                 }
@@ -183,7 +191,7 @@ public class rpc {
                 Le joueur 2 joue ciseau
                 Donc le joueur 1 gagne la manche
                  */
-                if(choixJ1 == 'r' && choixJ2 == 'c') {
+                if(choixJ1 == ROCHE && choixJ2 == CISEAU) {
                     scoreJ1++;
                     Pep8.stro(MSG_JOUEUR_1);
                 }
@@ -193,7 +201,7 @@ public class rpc {
                 Le joueur 2 joue roche
                 Donc le joueur 2 gagne la manche
                  */
-                if(choixJ1 == 'c' && choixJ2 == 'r') {
+                if(choixJ1 == CISEAU && choixJ2 == ROCHE) {
                     scoreJ2++;
                     Pep8.stro(MSG_JOUEUR_2);
                 }
@@ -203,7 +211,7 @@ public class rpc {
                 Le joueur 2 joue papier
                 Donc le joueur 1 gagne la manche
                  */
-                if(choixJ1 == 'c' && choixJ2 == 'p') {
+                if(choixJ1 == CISEAU && choixJ2 == PAPIER) {
                     scoreJ1++;
                     Pep8.stro(MSG_JOUEUR_1);
                 }
@@ -213,7 +221,7 @@ public class rpc {
                 Le joueur 2 joue ciseau
                 Donc le joueur 2 gagne la manche
                  */
-                if(choixJ1 == 'p' && choixJ2 == 'c') {
+                if(choixJ1 == PAPIER && choixJ2 == CISEAU) {
                     scoreJ2++;
                     Pep8.stro(MSG_JOUEUR_2);
                 }
@@ -237,10 +245,15 @@ public class rpc {
                 //Verification de la victoire anticipé du joueur 2
                 if(scoreJ2 == seuilleDeVictoire)
                     encoreJouable = false;
+
+                //Verification qu'il reste encore des manches a jouer
+                if (nbManches == 0)
+                    encoreJouable = false;
             }
-        } while (nbManches > 0 && encoreJouable );
+        } while (encoreJouable);
 
         Pep8.stro("\n\n");
+
         //Affichage du nom du vainqueur
         if (scoreJ1 > scoreJ2)
             Pep8.stro(MSG_JOUEUR_1);
