@@ -19,8 +19,8 @@ public class rpc {
 
         final String PRESENTATION =
                 "-----------------------------------------------\n" +
-                "--- Bienvenue au jeu de roche-papier-ciseau ---\n" +
-                "-----------------------------------------------\n";
+                        "--- Bienvenue au jeu de roche-papier-ciseau ---\n" +
+                        "-----------------------------------------------\n";
 
         final String MSG_NB_MANCHES = "Combien de manches voulez-vous jouer?\n";
 
@@ -70,7 +70,7 @@ public class rpc {
         int scoreJ1 = 0;                    //score du joueur 1
         int scoreJ2 = 0;                    //score du joueur 2
         int seuilleDeVictoire = 0;          //score a partie du quelle un joueur gagne
-                                            //quelque soit l'issue des manches suivantes.
+        //quelque soit l'issue des manches suivantes.
         boolean encoreJouable = true;       //indicateur de fin de jeu anticipé.
 
         //Affichage du message d'introduction du programme
